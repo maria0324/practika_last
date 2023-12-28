@@ -1,0 +1,44 @@
+{% load static %}
+
+<header>
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</header>
+<body>
+{% if user.is_authenticated %}
+    <ul class="dropdown-menu">
+        <ul class="sidebar-nav">
+            <a class="dropdown-item" href="{% url 'index' %}">Главная</a>
+            <a class="dropdown-item" href="{% url 'profile' %}">Профиль</a>
+            <a class="dropdown-item" href="{% url 'logout' %}">Выход</a>
+        </ul>
+    </ul>
+{% else %}
+<ul class="dropdown-menu">
+        <ul class="sidebar-nav">
+            <a class="dropdown-item" href="{% url 'index' %}">Главная</a>
+            <a class="dropdown-item" href="{% url 'registration' %}">Регистрация</a>
+            <a class="dropdown-item" href="{% url 'login' %}">Авторизация</a>
+        </ul>
+    </ul>
+{% endif %}
+<h2>Добро пожаловать на сайт! </h2>
+ <p> Количество заявок, принятых в работу: <b>{{num_of_accepted_requests }}</b> </p>
+<ul>
+{%block content%}
+<br>
+<h2>Все заявки: </h2>
+{% if requests %}
+    {% for request in requests %}
+        <p> <b>Название: </b>{{ request.request_name }} </p>
+        <p> <b>Категория: </b>{{request.category}} </p>
+        <p> <b>Описание: </b> {{ request.description }} </p>
+        <p> <b>Фотография: </b> <img src="{{request.photo_of_room.url}}" width="250px" height="150px"/> </p>
+        <p> <b>Время создания: </b>  {{request.date}}</p>
+        <br><br><br>
+    {% endfor %}
+{% else %}
+    <p>No requests</p>
+{% endif %}
+{%endblock content%}
+</ul>
+</body>

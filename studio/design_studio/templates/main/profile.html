@@ -1,0 +1,49 @@
+{% load static %}
+{% load bootstrap4 %}
+
+<header>
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</header>
+{% block content %}
+{% if user.is_authenticated %}
+    <ul class="dropdown-menu">
+        <ul class="sidebar-nav">
+            <a class="dropdown-item" href="{% url 'index' %}">Главная</a>
+            <a class="dropdown-item" href="{% url 'profile' %}">Профиль</a>
+            <a class="dropdown-item" href="{% url 'logout' %}">Выход</a>
+        </ul>
+    </ul>
+    <h2>Профиль пользователя {{ user.username }}</h2>
+  <p>Здравствуйте, {{ user.username }}! </p>
+<br><br>
+<a href="{% url 'request_create' %}">Создать заявку</a> <br><br>
+<a href="{% url 'request_list' %}">Фильтрация заявок по статусу</a><br><br>
+<a href="{% url 'request_list' %}">Фильтрация заявок по дате(сначала старые)</a><br><br>
+<a href="{% url 'request_list' %}">Фильтрация заявок по дате(сначала новые)</a>
+
+{% else %}
+  <p>Здравствуйте! Вы не авторизовались в систему </p>
+    <ul class="dropdown-menu">
+        <ul class="sidebar-nav">
+            <a class="dropdown-item" href="{% url 'index' %}">Главная</a>
+            <a class="dropdown-item" href="{% url 'registration' %}">Регистрация</a>
+            <a class="dropdown-item" href="{% url 'login' %}">Авторизация</a>
+        </ul>
+    </ul>
+{% endif %}
+
+{% if requests %}
+<h3>Ваши заявки:</h3>
+    {% for request in requests %}
+        <p> <b>Время создания: </b>  {{request.date}}</p>
+        <p> <b>Название: </b>{{ request.request_name }} </p>
+        <p> <b>Описание: </b> {{ request.description }} </p>
+        <p> <b>Категория: </b>{{request.category}} </p>
+        <p> <b>Статус: </b>{{request.status}} </p>
+    <a href="delete/{{ request.id }}">Удалить заявку</a>
+    <br><br>
+    {% endfor %}
+{% else %}
+  <p>Заявок нет</p>
+{% endif %}
+{% endblock content %}

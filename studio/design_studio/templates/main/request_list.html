@@ -1,0 +1,60 @@
+{% load static %}
+<header>
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</header>
+
+{% block content %}
+{% if user.is_authenticated %}
+    <ul class="dropdown-menu">
+        <ul class="sidebar-nav">
+            <a class="dropdown-item" href="{% url 'index' %}">Главная</a>
+            <a class="dropdown-item" href="{% url 'profile' %}">Профиль</a>
+            <a class="dropdown-item" href="{% url 'logout' %}">Выход</a>
+        </ul>
+    </ul>
+  <h1>Список заявок</h1>
+  <form>
+    <label for="status">Статус:</label>
+    <select name="status">
+      <option value="">Все</option>
+      <option value="Новая">Новая</option>
+      <option value="Принято в работу">Принято в работу</option>
+      <option value="Выполнено">Выполнено</option>
+    </select>
+    <input type="submit" value="Применить">
+  </form>
+
+<form>
+    <label for="date">Дата:</label>
+    <select name="date">
+      <option value="Новые">Новые</option>
+      <option value="Старые">Старые</option>
+
+    </select>
+    <input type="submit" value="Применить">
+  </form>
+
+  <ul>
+    {% for request in requests %}
+      <p> <b>Время создания: </b>  {{request.date}}</p>
+        <p> <b>Название: </b>{{ request.request_name }} </p>
+        <p> <b>Описание: </b> {{ request.description }} </p>
+        <p> <b>Категория: </b>{{request.category}} </p>
+        <p> <b>Статус: </b>{{request.status}} </p>
+    <a href="delete/{{ request.id }}">Удалить заявку</a>
+    <br><br>
+    {% empty %}
+      <li>Заявок не найдено</li>
+    {% endfor %}
+  </ul>
+{% else %}
+<p>Здравствуйте! Вы не авторизовались в систему </p>
+    <ul class="dropdown-menu">
+        <ul class="sidebar-nav">
+            <a class="dropdown-item" href="{% url 'index' %}">Главная</a>
+            <a class="dropdown-item" href="{% url 'registration' %}">Регистрация</a>
+            <a class="dropdown-item" href="{% url 'login' %}">Авторизация</a>
+        </ul>
+    </ul>
+{% endif %}
+{% endblock content %}

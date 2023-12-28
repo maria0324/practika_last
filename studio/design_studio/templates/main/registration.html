@@ -1,0 +1,23 @@
+{% load bootstrap4 %}
+{% load static %}
+
+<header>
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</header>
+<body>
+    <ul class="dropdown-menu">
+        <ul class="sidebar-nav">
+            <a class="dropdown-item" href="{% url 'index' %}">Главная</a>
+            <a class="dropdown-item" href="{% url 'registration' %}">Регистрация</a>
+            <a class="dropdown-item" href="{% url 'login' %}">Авторизация</a>
+        </ul>
+    </ul>
+</body>
+{% block content %}
+  <form method="POST" enctype="multipart/form-data">
+	{% csrf_token %}
+	  <h2>Регистрация</h2>
+	  {{ form.as_p }}
+	{% buttons submit='Зарегистрироваться' %} {% endbuttons %}
+</form>
+{% endblock %}

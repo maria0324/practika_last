@@ -1,0 +1,26 @@
+{% load static %}
+
+
+<header>
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</header>
+<body>
+{% if user.is_authenticated %}
+    <ul class="dropdown-menu">
+        <ul class="sidebar-nav">
+            <a class="dropdown-item" href="{% url 'index' %}">Главная</a>
+            <a class="dropdown-item" href="{% url 'profile' %}">Профиль</a>
+            <a class="dropdown-item" href="{% url 'logout' %}">Выход</a>
+        </ul>
+    </ul>
+{% else %}
+<ul class="dropdown-menu">
+        <ul class="sidebar-nav">
+            <a class="dropdown-item" href="{% url 'index' %}">Главная</a>
+            <a class="dropdown-item" href="{% url 'registration' %}">Регистрация</a>
+            <a class="dropdown-item" href="{% url 'login' %}">Авторизация</a>
+        </ul>
+    </ul>
+{% endif %}
+<h2>Добро пожаловать на сайт! </h2>
+</body>
